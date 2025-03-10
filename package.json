@@ -8,17 +8,13 @@
 	"bin": {
 		"mcp-turso": "dist/index.js"
 	},
-	"files": [
-		"dist",
-		"README.md",
-		"LICENSE"
-	],
+	"files": ["dist", "README.md", "LICENSE"],
 	"repository": {
 		"type": "git",
-		"url": "" // todo - add repo
+		"url": "https://github.com/nbbaier/mcp-turso"
 	},
-	"homepage": "", // todo - add homepage
-	"bugs": "", // todo - add bugs
+	"homepage": "https://github.com/nbbaier/mcp-turso#readme",
+	"bugs": "https://github.com/nbbaier/mcp-turso/issues",
 	"scripts": {
 		"build": "tsc && chmod +x dist/index.js"
 	},
