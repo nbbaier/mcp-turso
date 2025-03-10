@@ -32,21 +32,26 @@ server.tool("list_tables", "List all tables in the database", {}, async () => {
 	}
 });
 
-server.tool("get_schema", "Get the schema for all tables", {}, async () => {
-	try {
-		const schema = await dbSchema(db);
-		return content(JSON.stringify({ schema }, null, 2));
-	} catch (error) {
-		return content(
-			`Error getting schema: ${error instanceof Error ? error.message : String(error)}`,
-			true,
-		);
-	}
-});
+server.tool(
+	"get_db_schema",
+	"Get the schema for all tables in the database",
+	{},
+	async () => {
+		try {
+			const schema = await dbSchema(db);
+			return content(JSON.stringify({ schema }, null, 2));
+		} catch (error) {
+			return content(
+				`Error getting schema: ${error instanceof Error ? error.message : String(error)}`,
+				true,
+			);
+		}
+	},
+);
 
 server.tool(
 	"describe_table",
-	"Get the schema of a specific table",
+	"View schema information for a specific table",
 	{
 		table_name: z
 			.string()
@@ -68,7 +73,7 @@ server.tool(
 
 server.tool(
 	"query",
-	"Run a SELECT query",
+	"Execute a SELECT query  to read data from the database",
 	{
 		sql: z
 			.string()
