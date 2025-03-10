@@ -3,12 +3,18 @@ import { parseArgs } from "node:util";
 import { z } from "zod";
 import { DEFAULT_LOG_FILE } from "./logger.js";
 import {
-	envSchema,
 	type Config,
 	type TableColumn,
 	type TextContent,
+	envSchema,
 } from "./types.js";
 
+/**
+ * Retrieves a list of all tables in the Turso database.
+ *
+ * @param client - The Turso database client instance
+ * @returns A promise that resolves to an array of table names
+ */
 export async function listTables(client: Client): Promise<string[]> {
 	const result = await client.execute({
 		sql: "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'",
@@ -18,6 +24,12 @@ export async function listTables(client: Client): Promise<string[]> {
 	return result.rows.map((row) => row.name as string);
 }
 
+/**
+ * Retrieves the SQL schema definitions for all tables in the database.
+ *
+ * @param client - The Turso database client instance
+ * @returns A promise that resolves to an array of SQL schema statements
+ */
 export async function dbSchema(client: Client): Promise<string[]> {
 	const result = await client.execute({
 		sql: "SELECT sql FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'",
@@ -27,6 +39,14 @@ export async function dbSchema(client: Client): Promise<string[]> {
 	return result.rows.map((row) => row.sql as string);
 }
 
+/**
+ * Retrieves detailed schema information for a specific table.
+ *
+ * @param tableName - The name of the table to describe
+ * @param client - The Turso database client instance
+ * @returns A promise that resolves to an array of column definitions
+ * @throws Error if the table name is invalid or the table doesn't exist
+ */
 export async function describeTable(
 	tableName: string,
 	client: Client,
@@ -55,6 +75,14 @@ export async function describeTable(
 	}));
 }
 
+/**
+ * Executes a SELECT SQL query against the database.
+ *
+ * @param sql - The SQL query to execute (must be a SELECT query)
+ * @param client - The Turso database client instance
+ * @returns A promise that resolves to an object containing columns, rows, and row count
+ * @throws Error if the query is not a SELECT query
+ */
 export async function query<T = Record<string, unknown>>(
 	sql: string,
 	client: Client,
@@ -80,6 +108,12 @@ export async function query<T = Record<string, unknown>>(
 	};
 }
 
+/**
+ * Loads and validates environment configuration for the Turso database.
+ *
+ * @returns A validated configuration object
+ * @throws Error if the configuration is invalid
+ */
 export function loadConfig(): Config {
 	const config = envSchema.safeParse(process.env);
 
@@ -90,6 +124,13 @@ export function loadConfig(): Config {
 	return config.data;
 }
 
+/**
+ * Creates a formatted content response object for MCP tools.
+ *
+ * @param text - The text content to include in the response
+ * @param error - Whether this content represents an error (default: false)
+ * @returns A formatted content result object
+ */
 export function content(
 	text: string,
 	error = false,

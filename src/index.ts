@@ -61,6 +61,9 @@ server.tool("list_tables", "List all tables in the database", {}, async () => {
 	}
 });
 
+/**
+ * MCP tool handler that retrieves the schema for all tables in the database.
+ */
 server.tool(
 	"get_db_schema",
 	"Get the schema for all tables in the database",
@@ -78,6 +81,11 @@ server.tool(
 	},
 );
 
+/**
+ * MCP tool handler that retrieves detailed schema information for a specific table.
+ *
+ * @param table_name - The name of the table to describe
+ */
 server.tool(
 	"describe_table",
 	"View schema information for a specific table",
@@ -102,6 +110,11 @@ server.tool(
 	},
 );
 
+/**
+ * MCP tool handler that executes a SELECT query against the database.
+ *
+ * @param sql - The SQL query to execute (must be a SELECT query)
+ */
 server.tool(
 	"query",
 	"Execute a SELECT query  to read data from the database",
