@@ -57,7 +57,7 @@ If you would like to specify a custom path, you can include a `--logs` flag with
    "mcpServers": [
       "turso": {
          "command": "npx",
-         "args": ["-y", "mcp-turso", "--logs", "/Users/<username>/path/to/dir/mcp-logs.log "],
+         "args": ["-y", "mcp-turso", "--logs", "/Users/<username>/path/to/dir/mcp-logs.log"],
          "env": {
             "TURSO_DATABASE_URL": "your_url",
             "TURSO_AUTH_TOKEN": "your_token"
@@ -96,6 +96,13 @@ The server provides the following tools:
       -  `query` (string): The SELECT SQL query to execute
    -  Returns: Query results as an object of type `{ columns: string[]; rows: Record<string, unknown>[]; rowCount: number; }`
 
+## Todo
+
+- [ ] Add the ability to specify a custom log file on windows
+- [ ] Add more query tools
+
 ## License
 
 MIT License - see the [LICENSE](LICENSE) file for details.
+
+
