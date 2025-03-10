@@ -11,7 +11,7 @@
 	"files": ["dist", "README.md", "LICENSE"],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/nbbaier/mcp-turso"
+		"url": "git+https://github.com/nbbaier/mcp-turso.git"
 	},
 	"homepage": "https://github.com/nbbaier/mcp-turso#readme",
 	"bugs": "https://github.com/nbbaier/mcp-turso/issues",
