@@ -1,0 +1,46 @@
+{
+	"name": "mcp-turso",
+	"version": "0.1.0",
+	"description": "MCP server for interacting with Turso hosted LibSQL databases",
+	"license": "MIT",
+	"author": "Nico Baier",
+	"type": "module",
+	"bin": {
+		"mcp-turso": "dist/index.js"
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
+	"repository": {
+		"type": "git",
+		"url": "" // todo - add repo
+	},
+	"homepage": "", // todo - add homepage
+	"bugs": "", // todo - add bugs
+	"scripts": {
+		"build": "tsc && chmod +x dist/index.js"
+	},
+	"keywords": [
+		"mcp",
+		"libsql",
+		"sqlite",
+		"turso",
+		"database",
+		"model-context-protocol",
+		"mcp-server",
+		"ai",
+		"sql"
+	],
+	"dependencies": {
+		"@libsql/client": "^0.14.0",
+		"@modelcontextprotocol/sdk": "^1.6.1",
+		"zod": "^3.24.2"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"@total-typescript/tsconfig": "^1.0.4",
+		"typescript": "^5"
+	}
+}
