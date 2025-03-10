@@ -1,12 +1,14 @@
 import { appendFileSync, existsSync, mkdirSync } from "node:fs";
-import { homedir } from "node:os";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import pkg from "../package.json" with { type: "json" };
 
-export const DEFAULT_LOG_FILE = join(
-	homedir(),
-	`Library/Logs/MCP_Servers/${pkg.name}.log`,
-);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const parentDir = join(__dirname, "..");
+const logsDir = join(parentDir, "logs");
+
+export const DEFAULT_LOG_FILE = join(logsDir, `${pkg.name}.log`);
 
 function ensureLogFileExists(logFile: string = DEFAULT_LOG_FILE) {
 	const logDir = dirname(logFile);
