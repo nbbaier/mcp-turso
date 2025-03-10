@@ -1,4 +1,7 @@
 import type { Client } from "@libsql/client";
+import { parseArgs } from "node:util";
+import { z } from "zod";
+import { DEFAULT_LOG_FILE } from "./logger.js";
 import {
 	envSchema,
 	type Config,
@@ -95,4 +98,32 @@ export function content(
 		content: [{ type: "text", text }],
 		isError: error,
 	};
+}
+
+/**
+ * Determines the log file path based on command line arguments or defaults.
+ *
+ * @returns The path to the log file
+ */
+export function getLogFile(): string {
+	const { values } = parseArgs({
+		args: process.argv,
+		options: {
+			logs: {
+				type: "string",
+			},
+		},
+		strict: true,
+		allowPositionals: true,
+	});
+
+	const parsedLogs = z
+		.string()
+		.refine((targetPath) => {
+			const posixPath = targetPath.split("\\").join("/");
+			return targetPath === posixPath && posixPath.includes("/");
+		})
+		.safeParse(values.logs);
+
+	return values.logs && parsedLogs.success ? parsedLogs.data : DEFAULT_LOG_FILE;
 }

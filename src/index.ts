@@ -8,6 +8,7 @@ import {
 	content,
 	dbSchema,
 	describeTable,
+	getLogFile,
 	listTables,
 	query,
 } from "./utils.js";
@@ -19,8 +20,9 @@ const server = new McpServer({
 
 const dbUrl = process.env.TURSO_DATABASE_URL;
 const authToken = process.env.TURSO_AUTH_TOKEN;
+const logFile = getLogFile();
 
-const logger = createLogger();
+const logger = createLogger(logFile);
 
 if (!dbUrl) {
 	logger.error("TURSO_DATABASE_URL environment variable is required");
@@ -42,6 +44,9 @@ try {
 	process.exit(1);
 }
 
+/**
+ * MCP tool handler that lists all tables in the Turso database.
+ */
 server.tool("list_tables", "List all tables in the database", {}, async () => {
 	try {
 		logger.info("Executing list_tables");
