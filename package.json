@@ -1,6 +1,6 @@
 {
 	"name": "mcp-turso",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "MCP server for interacting with Turso hosted LibSQL databases",
 	"license": "MIT",
 	"author": "Nico Baier",

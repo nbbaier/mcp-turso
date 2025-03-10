@@ -4,6 +4,8 @@
     "forceConsistentCasingInFileNames": true,
     "rootDir": "src",
     "outDir": "dist",
+    "sourceMap": false,
+    "declaration": false
   },
   "exclude": [
     "node_modules",
