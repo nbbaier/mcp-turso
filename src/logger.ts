@@ -11,29 +11,18 @@ const logsDir = join(parentDir, "logs");
 export const DEFAULT_LOG_FILE = join(logsDir, `${pkg.name}.log`);
 
 /**
- * Ensures that the log file and its directory exist, creating them if necessary.
- *
- * @param logFile - Path to the log file (defaults to DEFAULT_LOG_FILE)
- */
-function ensureLogFileExists(logFile: string = DEFAULT_LOG_FILE) {
-	const logDir = dirname(logFile);
-	if (!existsSync(logDir)) {
-		mkdirSync(logDir, { recursive: true });
-	}
-	if (!existsSync(logFile)) {
-		appendFileSync(logFile, "");
-	}
-}
-
-/**
  * Formats a log message with timestamp, level, and optional data.
  *
- * @param level - The log level (INFO, ERROR, DEBUG)
+ * @param level - The log level (INFO, ERROR, DEBUG, etc)
  * @param message - The log message text
  * @param data - Optional data to include in the log entry
  * @returns A formatted log string
  */
-function formatMessage(level: string, message: string, data?: unknown): string {
+function formatLogMessage(
+	level: string,
+	message: string,
+	data?: unknown,
+): string {
 	const timestamp = new Date().toISOString();
 	const dataStr = data ? `\n${JSON.stringify(data, null, 2)}` : "";
 	return `[${timestamp}] [${level}] ${message}${dataStr}\n`;
@@ -45,23 +34,39 @@ function formatMessage(level: string, message: string, data?: unknown): string {
  * @param logFile - Path to the log file (defaults to DEFAULT_LOG_FILE)
  * @returns A logger object with info, error, and debug methods
  */
+/**
+ * Creates a logger instance that writes log messages to a file.
+ *
+ * @param logFile - The path to the log file. Defaults to DEFAULT_LOG_FILE.
+ * @returns A `logger` object with methods for logging at different levels.
+ * @returns {Object} `logger` - The logger object.
+ * @returns {string} `logger.logFile` - The path to the log file.
+ * @returns {function} `logger.log` - Logs a message with a custom level.
+ * @returns {function} `logger.info` - Logs an info level message.
+ * @returns {function} `logger.error` - Logs an error level message.
+ * @returns {function} `logger.debug` - Logs a debug level message.
+ */
 export function createLogger(logFile: string = DEFAULT_LOG_FILE) {
-	ensureLogFileExists(logFile);
+	const logDir = dirname(logFile);
+	if (!existsSync(logDir)) mkdirSync(logDir, { recursive: true });
+	if (!existsSync(logFile)) appendFileSync(logFile, "");
 
 	return {
 		logFile,
+		log(level: string, message: string, data?: unknown) {
+			const logMessage = formatLogMessage(level, message, data);
+			appendFileSync(logFile, logMessage);
+		},
 		info(message: string, data?: unknown) {
-			const logMessage = formatMessage("INFO", message, data);
+			const logMessage = formatLogMessage("INFO", message, data);
 			appendFileSync(logFile, logMessage);
 		},
-
 		error(message: string, error?: unknown) {
-			const logMessage = formatMessage("ERROR", message, error);
+			const logMessage = formatLogMessage("ERROR", message, error);
 			appendFileSync(logFile, logMessage);
 		},
-
 		debug(message: string, data?: unknown) {
-			const logMessage = formatMessage("DEBUG", message, data);
+			const logMessage = formatLogMessage("DEBUG", message, data);
 			appendFileSync(logFile, logMessage);
 		},
 	};
