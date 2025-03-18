@@ -1,17 +1,12 @@
 {
-  "extends": "@total-typescript/tsconfig/tsc/no-dom/library",
-  "compilerOptions": {
-    "forceConsistentCasingInFileNames": true,
-    "rootDir": "src",
-    "outDir": "dist",
-    "sourceMap": false,
-    "declaration": false
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
-  "include": [
-    "src/**/*"
-  ]
+	"extends": "@total-typescript/tsconfig/tsc/no-dom/library",
+	"compilerOptions": {
+		"forceConsistentCasingInFileNames": true,
+		"rootDir": "src",
+		"outDir": "dist",
+		"sourceMap": false,
+		"declaration": false
+	},
+	"exclude": ["node_modules", "dist"],
+	"include": ["src/**/*"]
 }
