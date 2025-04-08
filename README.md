@@ -3,7 +3,7 @@
 A Model Context Protocol (MCP) server that provides access to the Turso-hosted LibSQL databases. Currently, the server provides the following functionality:
 
 -  Retrieving a list of tables in a database
--  Retrieview the database schema
+-  Retrieving a database's schema
 -  Retrieving the schema of a table
 -  Performing SELECT queries
 
