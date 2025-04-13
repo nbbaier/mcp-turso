@@ -28,7 +28,7 @@ Add this to your `claude_desktop_config.json`:
 }
 ```
 
-You will need an existing database to continue. If you don’t have one, [create one](https://docs.turso.tech/quickstart). To get the database URL via the Turso CLI, run:
+You will need an existing database to continue. If you don't have one, [create one](https://docs.turso.tech/quickstart). To get the database URL via the Turso CLI, run:
 
 ```bash
 turso db show --url <database-name>
@@ -41,6 +41,28 @@ turso db tokens create <database-name>
 ```
 
 Add those values to your configuration as shown above.
+
+### With Cursor
+
+To configure the Turso MCP server with Cursor, add the following to your Cursor settings:
+
+1. Open Cursor and go to Settings (⚙️) > Settings (JSON)
+2. Add the following configuration to your settings JSON:
+
+```json
+"mcpServers": {
+  "turso": {
+    "command": "npx",
+    "args": ["-y", "mcp-turso"],
+    "env": {
+      "TURSO_DATABASE_URL": "your_url",
+      "TURSO_AUTH_TOKEN": "your_token"
+    }
+  }
+}
+```
+
+Replace `your_url` and `your_token` with your Turso database URL and authentication token as described in the previous section.
 
 ### Logging
 
@@ -67,9 +89,9 @@ If you would like to specify a custom path, you can include a `--logs` flag with
 }
 ```
 
-The path to the log file (default or custom) is always logged to `stderr` when the server is created. For Claude desktop, this will show up in your server logs in `~/Library/Logs/Claude`. 
+The path to the log file (default or custom) is always logged to `stderr` when the server is created. For Claude desktop, this will show up in your server logs in `~/Library/Logs/Claude`.
 
-_Note_: Right now, I haven't implemented specifying a custom logging file for Windows, but this is coming. 
+_Note_: Right now, I haven't implemented specifying a custom logging file for Windows, but this is coming.
 
 ## Server Capabilities
 
@@ -84,25 +106,21 @@ The server provides the following tools:
    -  No input
    -  Returns: an array of SQL creation statements
 -  `describe_table`
-
    -  View schema information for a specific table
-
-   -  Input: - `table_name` (string): Name of table to describe
+   -  Input:
+      -  `table_name` (string): Name of table to describe
    -  Returns: Array of column definitions with names and types
-
--  `query`
+-  `query_database`
    -  Execute a SELECT query to read data from the database
    -  Input:
-      -  `query` (string): The SELECT SQL query to execute
+      -  `sql` (string): The SELECT SQL query to execute
    -  Returns: Query results as an object of type `{ columns: string[]; rows: Record<string, unknown>[]; rowCount: number; }`
 
 ## Todo
 
-- [ ] Add the ability to specify a custom log file on windows
-- [ ] Add more query tools
+-  [ ] Add the ability to specify a custom log file on windows
+-  [ ] Add more query tools
 
 ## License
 
 MIT License - see the [LICENSE](LICENSE) file for details.
-
-
