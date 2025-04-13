@@ -25,6 +25,7 @@ const logFile = getLogFile();
 const logger = createLogger(logFile);
 
 if (!dbUrl) {
+	console.error("need to specify TURSO_DATABASE_URL");
 	logger.error("TURSO_DATABASE_URL environment variable is required");
 	process.exit(1);
 }
