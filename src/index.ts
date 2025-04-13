@@ -116,12 +116,12 @@ server.tool(
  * @param sql - The SQL query to execute (must be a SELECT query)
  */
 server.tool(
-	"query",
-	"Execute a SELECT query  to read data from the database",
+	"query_database",
+	"Execute a SELECT query to read data from the database",
 	{
 		sql: z
 			.string()
-			.describe("SELECT SQL query to execute")
+			.describe("SQL query to execute")
 			.min(1, "SQL query is required"),
 	},
 	async ({ sql }) => {

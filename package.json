@@ -1,6 +1,6 @@
 {
 	"name": "mcp-turso",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"description": "MCP server for interacting with Turso-hosted LibSQL databases",
 	"license": "MIT",
 	"author": "Nico Baier",
@@ -8,7 +8,11 @@
 	"bin": {
 		"mcp-turso": "dist/index.js"
 	},
-	"files": ["dist", "README.md", "LICENSE"],
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/nbbaier/mcp-turso.git"
