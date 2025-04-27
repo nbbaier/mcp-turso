@@ -168,3 +168,17 @@ export function getLogFile(): string {
 
 	return values.logs && parsedLogs.success ? parsedLogs.data : DEFAULT_LOG_FILE;
 }
+
+/**
+ * Retrieves the version string from a package.json file.
+ *
+ * @param pkg - The package.json file content
+ * @returns The version string
+ */
+export function getVersion(
+	pkg: Record<string, unknown>,
+): `${number}.${number}.${number}` {
+	return (pkg.version as string).match(/^\d+\.\d+\.\d+$/)
+		? (pkg.version as `${number}.${number}.${number}`)
+		: "0.0.0";
+}

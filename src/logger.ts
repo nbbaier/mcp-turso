@@ -53,19 +53,19 @@ export function createLogger(logFile: string = DEFAULT_LOG_FILE) {
 
 	return {
 		logFile,
-		log(level: string, message: string, data?: unknown) {
+		log(level: string, message: string, data?: unknown): void {
 			const logMessage = formatLogMessage(level, message, data);
 			appendFileSync(logFile, logMessage);
 		},
-		info(message: string, data?: unknown) {
+		info(message: string, data?: unknown): void {
 			const logMessage = formatLogMessage("INFO", message, data);
 			appendFileSync(logFile, logMessage);
 		},
-		error(message: string, error?: unknown) {
+		error(message: string, error?: unknown): void {
 			const logMessage = formatLogMessage("ERROR", message, error);
 			appendFileSync(logFile, logMessage);
 		},
-		debug(message: string, data?: unknown) {
+		debug(message: string, data?: unknown): void {
 			const logMessage = formatLogMessage("DEBUG", message, data);
 			appendFileSync(logFile, logMessage);
 		},
