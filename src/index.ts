@@ -1,21 +1,19 @@
-#!/usr/bin/env node
-import { type Client, createClient } from "@libsql/client";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { FastMCP } from "fastmcp";
 import { z } from "zod";
 import createLogger from "./logger.js";
 import {
+	getLogFile,
+	listTables,
 	content,
 	dbSchema,
 	describeTable,
-	getLogFile,
-	listTables,
 	query,
 } from "./utils.js";
+import { createClient, type Client } from "@libsql/client";
 
-const server = new McpServer({
+const server = new FastMCP({
 	name: "Turso MCP Server",
-	version: "0.1.0",
+	version: "0.2.0",
 });
 
 const dbUrl = process.env.TURSO_DATABASE_URL;
@@ -44,31 +42,30 @@ try {
 	process.exit(1);
 }
 
-/**
- * MCP tool handler that lists all tables in the Turso database.
- */
-server.tool("list_tables", "List all tables in the database", {}, async () => {
-	try {
-		logger.info("Executing list_tables");
-		const tables = await listTables(db);
-		return content(JSON.stringify({ tables }, null, 2));
-	} catch (error) {
-		logger.error("Failed to list tables", error);
-		return content(
-			`Error listing tables: ${error instanceof Error ? error.message : String(error)}`,
-			true,
-		);
-	}
+server.addTool({
+	name: "list_tables",
+	description: "List all tables in the database",
+	parameters: z.object({}),
+	execute: async () => {
+		try {
+			logger.info("Executing list_tables");
+			const tables = await listTables(db);
+			return content(JSON.stringify({ tables }, null, 2));
+		} catch (error) {
+			logger.error("Failed to list tables", error);
+			return content(
+				`Error listing tables: ${error instanceof Error ? error.message : String(error)}`,
+				true,
+			);
+		}
+	},
 });
 
-/**
- * MCP tool handler that retrieves the schema for all tables in the database.
- */
-server.tool(
-	"get_db_schema",
-	"Get the schema for all tables in the database",
-	{},
-	async () => {
+server.addTool({
+	name: "get_db_schema",
+	description: "Get the schema for all tables in the database",
+	parameters: z.object({}),
+	execute: async () => {
 		try {
 			const schema = await dbSchema(db);
 			return content(JSON.stringify({ schema }, null, 2));
@@ -79,23 +76,18 @@ server.tool(
 			);
 		}
 	},
-);
+});
 
-/**
- * MCP tool handler that retrieves detailed schema information for a specific table.
- *
- * @param table_name - The name of the table to describe
- */
-server.tool(
-	"describe_table",
-	"View schema information for a specific table",
-	{
+server.addTool({
+	name: "describe_table",
+	description: "View schema information for a specific table",
+	parameters: z.object({
 		table_name: z
 			.string()
 			.describe("Name of the table to describe")
 			.min(1, "Table name is required"),
-	},
-	async ({ table_name }) => {
+	}),
+	execute: async ({ table_name }) => {
 		try {
 			logger.info(`Executing describe_table for table: ${table_name}`);
 			const schema = await describeTable(table_name, db);
@@ -108,23 +100,18 @@ server.tool(
 			);
 		}
 	},
-);
+});
 
-/**
- * MCP tool handler that executes a SELECT query against the database.
- *
- * @param sql - The SQL query to execute (must be a SELECT query)
- */
-server.tool(
-	"query_database",
-	"Execute a SELECT query to read data from the database",
-	{
+server.addTool({
+	name: "query_database",
+	description: "Execute a SELECT query to read data from the database",
+	parameters: z.object({
 		sql: z
 			.string()
 			.describe("SQL query to execute")
 			.min(1, "SQL query is required"),
-	},
-	async ({ sql }) => {
+	}),
+	execute: async ({ sql }) => {
 		try {
 			logger.info(`Executing query: ${sql}`);
 			const result = await query(sql, db);
@@ -137,7 +124,7 @@ server.tool(
 			);
 		}
 	},
-);
+});
 
 process.on("uncaughtException", (error) => {
 	logger.error("Uncaught exception", error);
@@ -149,11 +136,9 @@ process.on("unhandledRejection", (reason) => {
 
 console.error(`[INFO] Additional logs available at: ${logger.logFile}`);
 
-logger.info("Connecting to transport...");
-const transport = new StdioServerTransport();
-
-await server.connect(transport);
-logger.info("Turso MCP server running");
+server.start({
+	transportType: "stdio",
+});
 
 process.on("exit", (code) => {
 	logger.info("Turso MCP server closed", code);
