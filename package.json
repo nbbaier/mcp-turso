@@ -8,11 +8,7 @@
 	"bin": {
 		"mcp-turso": "dist/index.js"
 	},
-	"files": [
-		"dist",
-		"README.md",
-		"LICENSE"
-	],
+	"files": ["dist", "README.md", "LICENSE"],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/nbbaier/mcp-turso.git"
