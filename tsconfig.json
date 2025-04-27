@@ -5,7 +5,10 @@
       "rootDir": "src",
       "outDir": "dist",
       "sourceMap": false,
-      "declaration": false
+      "declaration": false,
+      "moduleResolution": "bundler",
+      "module": "ESNext",
+      "resolveJsonModule": true
    },
    "exclude": ["node_modules", "dist"],
    "include": ["src/**/*"]

@@ -11,11 +11,11 @@ import {
 	getVersion,
 } from "./utils.js";
 import { createClient, type Client } from "@libsql/client";
-import pkg from "../package.json" with { type: "json" };
+import { version } from "../package.json" with { type: "json" };
 
 const server = new FastMCP({
 	name: "Turso MCP Server",
-	version: getVersion(pkg),
+	version: getVersion(version),
 });
 
 const dbUrl = process.env.TURSO_DATABASE_URL;

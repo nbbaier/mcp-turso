@@ -1,14 +1,14 @@
 import { appendFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import pkg from "../package.json" with { type: "json" };
+import { name } from "../package.json" with { type: "json" };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const parentDir = join(__dirname, "..");
 const logsDir = join(parentDir, "logs");
 
-export const DEFAULT_LOG_FILE = join(logsDir, `${pkg.name}.log`);
+export const DEFAULT_LOG_FILE = join(logsDir, `${name}.log`);
 
 /**
  * Formats a log message with timestamp, level, and optional data.

@@ -175,10 +175,8 @@ export function getLogFile(): string {
  * @param pkg - The package.json file content
  * @returns The version string
  */
-export function getVersion(
-	pkg: Record<string, unknown>,
-): `${number}.${number}.${number}` {
-	return (pkg.version as string).match(/^\d+\.\d+\.\d+$/)
-		? (pkg.version as `${number}.${number}.${number}`)
+export function getVersion(version: string): `${number}.${number}.${number}` {
+	return version.match(/^\d+\.\d+\.\d+$/)
+		? (version as `${number}.${number}.${number}`)
 		: "0.0.0";
 }
