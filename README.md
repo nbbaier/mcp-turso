@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/nbbaier-mcp-turso-badge.png)](https://mseep.ai/app/nbbaier-mcp-turso)
+
 # mcp-turso
 
 A Model Context Protocol (MCP) server that provides access to the Turso-hosted LibSQL databases. Currently, the server provides the following functionality:
