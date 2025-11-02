@@ -7,6 +7,10 @@ A Model Context Protocol (MCP) server that provides access to the Turso-hosted L
 -  Retrieving the schema of a table
 -  Performing SELECT queries
 
+<a href="https://glama.ai/mcp/servers/@nbbaier/mcp-turso">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@nbbaier/mcp-turso/badge" alt="MCP-Turso MCP server" />
+</a>
+
 ## Configuration
 
 ### With Claude Desktop
